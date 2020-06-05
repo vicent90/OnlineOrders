@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import indexRoutes from './routes/indexRoutes';
+import productsRoutes from './routes/productsRoutes';
 
 class Server {
   public app: express.Application;
@@ -36,6 +37,7 @@ class Server {
 
   routes() {
     this.app.use(indexRoutes);
+    this.app.use(productsRoutes);
   }
 
   start() {
