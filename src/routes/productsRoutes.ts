@@ -38,7 +38,7 @@ class ProductsRoutes {
       .then(productCreated => {
         res.status(201).json({
           message: 'Producto creado',
-          paciente: productCreated
+          product: productCreated
         })
       })
       .catch((err: any) => {
