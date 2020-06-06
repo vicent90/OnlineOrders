@@ -2,7 +2,10 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import indexRoutes from './routes/indexRoutes';
+import loginRoutes from './routes/loginRoutes';
+import usersRoutes from './routes/usersRoutes';
 import productsRoutes from './routes/productsRoutes';
+//import ordersRoutes from './routes/ordersRoutes';
 
 class Server {
   public app: express.Application;
@@ -14,7 +17,7 @@ class Server {
   }
 
   config() {
-    const MONGO_LOCAL = '';
+    const MONGO_LOCAL = 'mongodb://heroku_nhdht8x5:nugtv61ig7mbmgjg4c2c0lpvh0@ds163418.mlab.com:63418/heroku_nhdht8x5';
     mongoose.set('useFindAndModify', true);
     mongoose.connect(process.env.MONGODB_URI || MONGO_LOCAL, {
       useNewUrlParser: true,
@@ -45,13 +48,16 @@ class Server {
 
   routes() {
     this.app.use(indexRoutes);
+    this.app.use(loginRoutes);
+    this.app.use(usersRoutes);
     this.app.use(productsRoutes);
+    //  this.app.use(ordersRoutes);
   }
 
   start() {
     const port = this.app.get('port');
     this.app.listen(port, () => {
-      console.log('Server on port ', port);
+      console.log('Server on port', port);
     });
   }
 }

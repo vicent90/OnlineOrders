@@ -12,11 +12,13 @@ class ProductsRoutes {
   public getProducts(req: Request, res: Response) {
     Product.find()
       .then(products => {
-        res.status(200).json(products);
+        res.status(200).json({ products });
       })
       .catch((err: any) => {
-        console.log(err);
-        res.json(err);
+        res.json({
+          message: 'Error al obtener productos',
+          errors: err
+        });
       });
   }
 
@@ -58,10 +60,10 @@ class ProductsRoutes {
   public deteleProduct(req: Request, res: Response) {
     const { id } = req.params;
     Product.findByIdAndDelete(id)
-      .then((resp) => {
-        console.log(resp);
+      .then(product => {
         res.status(200).json({
-          message: 'Producto borrado correctamente'
+          message: 'Producto borrado correctamente',
+          product
         });
       })
       .catch(err => {
