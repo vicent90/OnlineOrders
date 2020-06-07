@@ -12,7 +12,18 @@ class OrdersRoutes {
   }
 
   getOrders(req: Request, res: Response) {
-    Order.find()
+    const { date, dateFrom, dateTo } = req.query;
+    console.log(new Date(date) - 1)
+    const query = date || (dateFrom && dateTo) ?
+      {
+        createdAt:
+        {
+          $gte: date || dateFrom,
+          $lte: new Date(date) || dateTo
+        }
+      } : {};
+
+    Order.find(query)
       .then(orders => {
         res.status(200).json({ orders });
       })
