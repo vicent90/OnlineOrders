@@ -13,13 +13,15 @@ class OrdersRoutes {
 
   getOrders(req: Request, res: Response) {
     const { date, dateFrom, dateTo } = req.query;
-    console.log(new Date(date) - 1)
+    // Verify how to filter dates, in DB is with timestamp
+    // ** Add a day with momentjs ?
+    // ** Format createdAt ? 
     const query = date || (dateFrom && dateTo) ?
       {
         createdAt:
         {
           $gte: date || dateFrom,
-          $lte: new Date(date) || dateTo
+          $lte: date || dateTo
         }
       } : {};
 
