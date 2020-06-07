@@ -9,37 +9,40 @@ class ProductsRoutes {
     this.routes();
   }
 
-  public getProducts(req: Request, res: Response) {
+  getProducts(req: Request, res: Response) {
     Product.find()
       .then(products => {
         res.status(200).json({ products });
       })
       .catch((err: any) => {
-        res.json({
+        res.status(500).json({
           message: 'Error al obtener productos',
           errors: err
         });
       });
   }
 
-  public async getProduct(req: Request, res: Response): Promise<void> {
-    console.log(req.params.url);
-    const product = await Product.findOne({ url: req.params.url });
-    res.json(product);
+  getProduct(req: Request, res: Response) {
+    const id = req.params.id;
+    Product.findById(id)
+      .then(product => {
+        res.status(200).json({ product });
+      })
+      .catch((err: any) => {
+        res.status(500).json({
+          message: 'Error al obtener el producto',
+          errors: err
+        });
+      });
   }
 
-  public createProduct(req: Request, res: Response) {
-    const { name, price, description, shop, meats, meatsPreparation,
-      unitMeasure, stockQuantity, imageUrl, active, updateAt } = req.body;
-    const newProduct = new Product({
-      name, price, description, shop, meats, meatsPreparation,
-      unitMeasure, stockQuantity, imageUrl, active, updateAt
-    });
+  createProduct(req: Request, res: Response) {
+    const newProduct = new Product(req.body);
     newProduct.save()
-      .then(productCreated => {
+      .then(product => {
         res.status(201).json({
           message: 'Producto creado',
-          product: productCreated
+          product
         })
       })
       .catch((err: any) => {
@@ -56,7 +59,7 @@ class ProductsRoutes {
     res.send({ message: 'product updated', product });
   }
 
-  public deteleProduct(req: Request, res: Response) {
+  deteleProduct(req: Request, res: Response) {
     const { id } = req.params;
     Product.findByIdAndDelete(id)
       .then(product => {
@@ -75,7 +78,7 @@ class ProductsRoutes {
 
   routes() {
     this.router.get('/products', this.getProducts);
-    // this.router.get('/products/:id', this.getProduct);
+    this.router.get('/products/:id', this.getProduct);
     this.router.post('/products', this.createProduct);
     // this.router.put('/products/:url', this.updateProduct);
     this.router.delete('/products/:id', this.deteleProduct);

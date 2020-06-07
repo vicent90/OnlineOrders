@@ -10,7 +10,7 @@ class UserRoutes {
     this.routes();
   }
 
-  public getUsers(req: any, res: Response) {
+  getUsers(req: any, res: Response) {
     User.find()
       .then(users => {
         res.status(200).json({ users });
@@ -23,7 +23,7 @@ class UserRoutes {
       });
   }
 
-  public getUser(req: any, res: Response) {
+  getUser(req: any, res: Response) {
     const { id } = req.params;
     User.findById(id)
       .then((user: any) => {
@@ -43,7 +43,7 @@ class UserRoutes {
       });
   }
 
-  public createUser(req: any, res: Response) {
+  createUser(req: any, res: Response) {
     const { userName, pass, role } = req.body;
     if (!pass || !userName) {
       return res.status(400).json({
@@ -69,7 +69,7 @@ class UserRoutes {
   }
 
 
-  public updateUser(req: any, res: Response) {
+  updateUser(req: any, res: Response) {
     const { id } = req.params;
     const query = req.user.role === 'SA_ROLE' ?
       { _id: id } : { _id: id, client: req.user.client };
@@ -108,7 +108,7 @@ class UserRoutes {
     });
   }
 
-  public deteleUser(req: any, res: Response) {
+  deteleUser(req: any, res: Response) {
     const { id } = req.params;
     if (id === req.user._id) {
       return res.status(400).json({
