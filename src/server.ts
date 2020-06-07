@@ -17,7 +17,7 @@ class Server {
   }
 
   config() {
-    const MONGO_LOCAL = 'mongodb://heroku_nhdht8x5:nugtv61ig7mbmgjg4c2c0lpvh0@ds163418.mlab.com:63418/heroku_nhdht8x5';
+    const MONGO_LOCAL = 'mongodb://127.0.0.1:27017/onlineOrders';
     mongoose.set('useFindAndModify', true);
     mongoose.connect(process.env.MONGODB_URI || MONGO_LOCAL, {
       useNewUrlParser: true,

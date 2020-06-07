@@ -35,8 +35,7 @@ class ProductsRoutes {
       name, price, description, shop, meats, meatsPreparation,
       unitMeasure, stockQuantity, imageUrl, active, updateAt
     });
-    newProduct
-      .save()
+    newProduct.save()
       .then(productCreated => {
         res.status(201).json({
           message: 'Producto creado',
@@ -71,8 +70,7 @@ class ProductsRoutes {
           message: 'Error borrar el prodcuto',
           errors: err
         });
-      })
-    res.send({ message: 'product deleted' });
+      });
   }
 
   routes() {

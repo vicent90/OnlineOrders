@@ -30,9 +30,9 @@ const productSchema = new Schema({
   unitMeasure: { type: String, required: true, default: 'KG', enum: validUnitMeasure },
   stockQuantity: { type: Number },
   imageUrl: { type: String },
-  active: { type: Boolean, required: true, default: true },
-  createdAt: { type: Date, default: Date.now },
-  updateAt: { type: Date }
-});
+  active: { type: Boolean, required: true, default: true }
+},
+  { timestamps: true }
+);
 
 export default model('Product', productSchema);
