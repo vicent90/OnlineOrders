@@ -4,15 +4,15 @@ import Products from '../models/Products';
 class Helpers {
 
   decreaseProductsQuantity = (req: any, res: Response, next: NextFunction) => {
+
     const bulkOps = req.body.products.map((product: any) => {
       return {
         updateOne: {
-          filter: { _id: product._id },
-          update: { $inc: { quantity: -product.quantity } }
+          filter: { _id: product.productId },
+          update: { $inc: { stockQuantity: -product.quantity } }
         }
       }
     });
-
     Products.bulkWrite(bulkOps)
       .then(() => next())
       .catch(err => {

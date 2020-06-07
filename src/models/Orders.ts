@@ -7,12 +7,12 @@ const validStatus = {
 };
 
 const orderSchema = new Schema({
-  client: [{
+  client: {
     name: { type: String, required: true },
     phone: { type: String, required: true },
     email: String,
     note: String
-  }],
+  },
   products: [{
     productId: {
       type: Schema.Types.ObjectId,
