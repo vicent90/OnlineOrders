@@ -5,11 +5,11 @@ import Order from '../models/Orders';
 
 class OrdersRoutes {
   router: Router;
+
   constructor() {
     this.router = Router();
     this.routes();
   }
-
 
   getOrders(req: Request, res: Response) {
     Order.find()
@@ -59,6 +59,11 @@ class OrdersRoutes {
     const { id } = req.params;
     Order.findByIdAndDelete(id)
       .then(order => {
+        if (!order) {
+          res.status(400).json({
+            message: 'El pedido con el id ' + id + ' no existe',
+          });
+        }
         res.status(200).json({
           message: 'Pedido borrado correctamente',
           order

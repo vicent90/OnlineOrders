@@ -63,6 +63,11 @@ class ProductsRoutes {
     const { id } = req.params;
     Product.findByIdAndDelete(id)
       .then(product => {
+        if (!product) {
+          res.status(400).json({
+            message: 'El producto con el id ' + id + ' no existe',
+          });
+        }
         res.status(200).json({
           message: 'Producto borrado correctamente',
           product
