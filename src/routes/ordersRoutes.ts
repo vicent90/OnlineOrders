@@ -90,9 +90,16 @@ class OrdersRoutes {
       });
   }
 
+  getOrdersStatusValues(req: Request, res: Response) {
+    res.json(Order.schema.path("status").enumValues);
+  }
+
+
+
 
   routes() {
     this.router.get('/orders', this.getOrders);
+    this.router.get('/orders-status-values', this.getOrdersStatusValues);
     this.router.get('/orders/:id', this.getOrder);
     this.router.post('/orders', [helpers.decreaseProductsQuantity, this.createOrder]);
     // this.router.put('/orders/:url', this.updateOrder);

@@ -81,8 +81,19 @@ class ProductsRoutes {
       });
   }
 
+  getProductsValues(req: Request, res: Response) {
+    const value = req.query.value;
+    if (value === "meats" ||
+      value === "meatsPreparation" ||
+      value === "unitMeasure") {
+      res.status(200).json(Product.schema.path(value).enumValues)
+    }
+    res.status(400).json({ message: value + " no es un valor permitido" })
+  }
+
   routes() {
     this.router.get('/products', this.getProducts);
+    this.router.get('/products-values', this.getProductsValues)
     this.router.get('/products/:id', this.getProduct);
     this.router.post('/products', this.createProduct);
     // this.router.put('/products/:url', this.updateProduct);
