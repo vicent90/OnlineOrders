@@ -91,11 +91,8 @@ class OrdersRoutes {
   }
 
   getOrdersStatusValues(req: Request, res: Response) {
-    res.json(Order.schema.path("status").enumValues);
+    res.status(200).json(Order.schema.path("status").enumValues);
   }
-
-
-
 
   routes() {
     this.router.get('/orders', this.getOrders);
