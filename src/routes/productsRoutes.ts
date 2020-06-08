@@ -36,13 +36,35 @@ class ProductsRoutes {
       });
   }
 
+  updateProduct(req: Request, res: Response) {
+    const id = req.params.id;
+    Product.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+      .then(productUpdated => {
+        if (!productUpdated) {
+          res.status(400).json({
+            message: 'El producto con el id ' + id + ' no existe'
+          });
+        }
+        res.status(200).json({
+          message: 'Producto actualizado',
+          product: productUpdated
+        })
+      })
+      .catch((err: any) => {
+        res.status(500).json({
+          message: 'Error al actualizar el producto',
+          errors: err
+        });
+      });
+  }
+
   createProduct(req: Request, res: Response) {
     const newProduct = new Product(req.body);
     newProduct.save()
-      .then(product => {
+      .then(productCreated => {
         res.status(201).json({
           message: 'Producto creado',
-          product
+          product: productCreated
         })
       })
       .catch((err: any) => {
@@ -53,24 +75,18 @@ class ProductsRoutes {
       });
   }
 
-  public async updateProduct(req: Request, res: Response): Promise<void> {
-    const { url } = req.params;
-    const product = await Product.findOneAndUpdate({ url }, req.body, { new: true });
-    res.send({ message: 'product updated', product });
-  }
-
   deteleProduct(req: Request, res: Response) {
     const { id } = req.params;
     Product.findByIdAndDelete(id)
-      .then(product => {
-        if (!product) {
+      .then(productDeleted => {
+        if (!productDeleted) {
           res.status(400).json({
             message: 'El producto con el id ' + id + ' no existe',
           });
         }
         res.status(200).json({
           message: 'Producto borrado correctamente',
-          product
+          product: productDeleted
         });
       })
       .catch(err => {
@@ -95,8 +111,8 @@ class ProductsRoutes {
     this.router.get('/products', this.getProducts);
     this.router.get('/products-values', this.getProductsValues)
     this.router.get('/products/:id', this.getProduct);
+    this.router.put('/products/:id', this.updateProduct);
     this.router.post('/products', this.createProduct);
-    // this.router.put('/products/:url', this.updateProduct);
     this.router.delete('/products/:id', this.deteleProduct);
   }
 }

@@ -51,13 +51,35 @@ class OrdersRoutes {
       });
   }
 
+  updateOrder(req: Request, res: Response) {
+    const id = req.params.id;
+    Order.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+      .then(orderUpdated => {
+        if (!orderUpdated) {
+          res.status(400).json({
+            message: 'El pedido con el id ' + id + ' no existe',
+          });
+        }
+        res.status(200).json({
+          message: 'Pedido actualizado',
+          order: orderUpdated
+        });
+      })
+      .catch((err: any) => {
+        res.status(500).json({
+          message: 'Error al obtener el pedido',
+          errors: err
+        });
+      });
+  }
+
   createOrder(req: Request, res: Response) {
     const newOrder = new Order(req.body);
     newOrder.save()
-      .then(order => {
+      .then(orderCreated => {
         res.status(201).json({
           message: 'Pedido creado',
-          order
+          order: orderCreated
         })
       })
       .catch((err: any) => {
@@ -69,17 +91,17 @@ class OrdersRoutes {
   }
 
   deteleOrder(req: Request, res: Response) {
-    const { id } = req.params;
+    const id = req.params.id;
     Order.findByIdAndDelete(id)
-      .then(order => {
-        if (!order) {
+      .then(orderDeleted => {
+        if (!orderDeleted) {
           res.status(400).json({
             message: 'El pedido con el id ' + id + ' no existe',
           });
         }
         res.status(200).json({
           message: 'Pedido borrado correctamente',
-          order
+          order: orderDeleted
         });
       })
       .catch(err => {
@@ -98,6 +120,7 @@ class OrdersRoutes {
     this.router.get('/orders', this.getOrders);
     this.router.get('/orders-status-values', this.getOrdersStatusValues);
     this.router.get('/orders/:id', this.getOrder);
+    this.router.put('/orders/:id', this.updateOrder);
     this.router.post('/orders', [helpers.decreaseProductsQuantity, this.createOrder]);
     // this.router.put('/orders/:url', this.updateOrder);
     this.router.delete('/orders/:id', this.deteleOrder);
