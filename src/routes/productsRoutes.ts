@@ -38,7 +38,7 @@ class ProductsRoutes {
 
   updateProduct(req: Request, res: Response) {
     const id = req.params.id;
-    Product.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+    Product.findByIdAndUpdate(id, req.body, { new: true, runValidators: true, context: 'query' })
       .then(productUpdated => {
         if (!productUpdated) {
           res.status(400).json({

@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 const validShops = {
   values: ['CARNICERIA', 'VERDULERIA'],
@@ -21,7 +22,7 @@ const validUnitMeasure = {
 }
 
 const productSchema = new Schema({
-  name: { type: String, required: [true, 'El nombre del producto es necesario'] },
+  name: { type: String, unique: true, required: [true, 'El nombre del producto es necesario'] },
   price: { type: Number },
   description: { type: String },
   shop: { type: String, enum: validShops, required: [true, 'Se debe elegir un negocio: ' + validShops.values[0] + ' o ' + validShops.values[1]] },
@@ -34,5 +35,7 @@ const productSchema = new Schema({
 },
   { timestamps: true }
 );
+
+productSchema.plugin(uniqueValidator, { message: 'El {PATH} debe ser único' });
 
 export default model('Product', productSchema);
