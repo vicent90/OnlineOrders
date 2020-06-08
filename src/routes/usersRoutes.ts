@@ -12,6 +12,7 @@ class UserRoutes {
 
   getUsers(req: any, res: Response) {
     User.find()
+      .select('-passDB')
       .then(users => {
         res.status(200).json({ users });
       })
@@ -26,13 +27,13 @@ class UserRoutes {
   getUser(req: any, res: Response) {
     const { id } = req.params;
     User.findById(id)
+      .select('-passDB')
       .then((user: any) => {
         if (!user) {
           return res.status(400).json({
             message: 'El usuario con el id ' + id + ' no existe',
           });
         }
-        user.passDB = '********';
         res.status(200).json({ user });
       })
       .catch(err => {
@@ -71,17 +72,15 @@ class UserRoutes {
 
   updateUser(req: any, res: Response) {
     const id = req.params.id;
+    // delete req.body.userName;
     if (req.body.passDB) {
       req.body.passDB = bcrypt.hashSync(req.body.passDB, 10);
     } else {
       delete req.body.passDB;
     }
-    // if (req.user.role === 'ADMIN') {
-    //   return res.status(400).json({
-    //     message: 'Un usuario normal no se puede cambiar el role',
-    //   });
-    // }
-    User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+    console.log(req.body)
+    User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true, context: 'query' })
+      .select('-passDB')
       .then(userUpdated => {
         if (!userUpdated) {
           return res.status(400).json({
@@ -95,7 +94,7 @@ class UserRoutes {
       })
       .catch(err => {
         return res.status(500).json({
-          message: 'Error al buscar usuario',
+          message: 'Error al actualizar el usuario',
           errors: err
         });
       });
@@ -108,7 +107,8 @@ class UserRoutes {
         message: 'No se puede eliminar a si mismo'
       });
     }
-    User.findByIdAndDelete(id)
+    User.findByIdAndDelete(id, { select: -'passDB' })
+      .select('-passDB')
       .then(userDeleted => {
         if (!userDeleted) {
           return res.status(400).json({
