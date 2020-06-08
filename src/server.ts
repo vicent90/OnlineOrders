@@ -17,19 +17,19 @@ class Server {
   }
 
   config() {
-    const MONGO_LOCAL = 'mongodb://127.0.0.1:27017/onlineOrders';
+    const MONGO_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/onlineOrders';
     mongoose.set('useFindAndModify', true);
-    mongoose.connect(process.env.MONGODB_URI || MONGO_LOCAL, {
+    mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
       useCreateIndex: true
     })
       .then(() => {
-        console.log(process.env.MONGODB_URI);
+        console.log(MONGO_URI);
         console.log('Base de datos conectada');
       })
       .catch(() => {
-        console.log(process.env.MONGODB_URI);
-        console.log('Error al conectar a db Heroku')
+        console.log(MONGO_URI);
+        console.log('Error al conectar a db')
       });
 
     this.app.set('port', process.env.PORT || 3000);
