@@ -16,7 +16,9 @@ const userSchema = new Schema({
   address: { type: String },
   phone: { type: String },
   message: { type: String },
-});
+},
+  { timestamps: true }
+);
 
 userSchema.plugin(uniqueValidator, { message: 'El {PATH} debe ser único' });
 
