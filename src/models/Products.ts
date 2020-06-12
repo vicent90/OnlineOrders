@@ -12,7 +12,7 @@ const validMeats = {
 };
 
 const validMeatsPreparation = {
-  values: ['MILANESAS', 'PARRILLA', 'CACEROLA', 'HORNO', 'PLANCHA'],
+  values: ['MILANESAS', 'PARRILLA', 'CACEROLA', 'HORNO', '  '],
   message: '{VALUE} no es un tipo de carnicería válido'
 };
 
@@ -27,7 +27,8 @@ const productSchema = new Schema({
   description: { type: String },
   shop: { type: String, enum: validShops, required: [true, 'Se debe elegir un negocio: ' + validShops.values[0] + ' o ' + validShops.values[1]] },
   meats: { type: String, required: false, enum: validMeats },
-  meatsPreparation: { type: String, required: false, enum: validMeatsPreparation },
+  meatsPreparation: { type: [String], required: false, enum: validMeatsPreparation },
+  meatsPresentation: { type: String },
   unitMeasure: { type: String, required: true, default: 'KG', enum: validUnitMeasure },
   stockQuantity: { type: Number },
   imageUrl: { type: String },
