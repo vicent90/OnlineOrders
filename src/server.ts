@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
 
 import indexRoutes from './routes/indexRoutes';
 import loginRoutes from './routes/loginRoutes';
@@ -36,7 +37,8 @@ class Server {
     // Middlewares
     this.app.use(express.json()); // Replace of body parser
     this.app.use(express.urlencoded({ extended: false }));
-
+    // Servce Images in {{url}}/images/*****.jpeg
+    this.app.use('*/images', express.static(path.join(__dirname, './images')));
     // CORs
     this.app.use(function (req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
