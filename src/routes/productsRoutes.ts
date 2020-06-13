@@ -1,4 +1,6 @@
 import { Request, Response, Router } from 'express';
+const { readdir } = require('fs').promises;
+import path from "path";
 import mongoose from 'mongoose';
 import Product from '../models/Products';
 
@@ -91,7 +93,7 @@ class ProductsRoutes {
       })
       .catch(err => {
         res.status(500).json({
-          message: 'Error borrar el prodcuto',
+          message: 'Error borrar el producto',
           errors: err
         });
       });
@@ -108,6 +110,21 @@ class ProductsRoutes {
     res.status(400).json({ message: value + " no es un valor permitido" })
   }
 
+  getImagesNames(req: Request, res: Response) {
+    readdir(path.join(__dirname, '..', './images'), { withFileTypes: true })
+      .then((images: any) => {
+        res.status(200).json(images);
+      })
+      .catch((err: Error) => {
+        res.status(400).json({
+          message: 'No se pudo obtener el nombres de las imágenes',
+          errors: err
+        });
+      });
+
+  }
+
+
   routes() {
     this.router.get('/products', this.getProducts);
     this.router.get('/products-values', this.getProductsValues)
@@ -115,6 +132,7 @@ class ProductsRoutes {
     this.router.put('/products/:id', this.updateProduct);
     this.router.post('/products', this.createProduct);
     this.router.delete('/products/:id', this.deteleProduct);
+    this.router.get('/images-names', this.getImagesNames)
   }
 }
 
