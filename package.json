@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build-ts": "tsc",
-    "postinstall": "npm run build-ts",
+    "postinstall": "npm run build-ts && copyfiles -u 1 src/images/*.jpeg ./build",
     "start": "npm run serve",
     "serve": "node build/server.js",
     "watch-node": "nodemon build/server.js",
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w "
   },
   "author": "Vicente Mazzaro",
   "license": "ISC",
@@ -27,6 +27,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.22",
     "@types/mongoose-unique-validator": "^1.0.4",
+    "copyfiles": "^2.3.0",
     "typescript": "^3.5.2"
   }
 }
