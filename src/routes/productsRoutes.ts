@@ -102,7 +102,8 @@ class ProductsRoutes {
     if (value === "meats" ||
       value === "meatsPreparation" ||
       value === "unitMeasure") {
-      res.status(200).json(Product.schema.path(value).enumValues)
+      const productStatus: any = Product.schema.path(value);
+      res.status(200).json(productStatus.enumValues);
     }
     res.status(400).json({ message: value + " no es un valor permitido" })
   }

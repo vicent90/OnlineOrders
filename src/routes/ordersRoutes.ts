@@ -113,7 +113,8 @@ class OrdersRoutes {
   }
 
   getOrdersStatusValues(req: Request, res: Response) {
-    res.status(200).json(Order.schema.path("status").enumValues);
+    const orderStatus: any = Order.schema.path("status");
+    res.status(200).json(orderStatus.enumValues);
   }
 
   routes() {
