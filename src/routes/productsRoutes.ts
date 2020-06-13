@@ -113,7 +113,7 @@ class ProductsRoutes {
   getImagesNames(req: Request, res: Response) {
     readdir(path.join(__dirname, '..', './images'), { withFileTypes: true })
       .then((images: any) => {
-        res.status(200).json(images);
+        res.status(200).json({ images });
       })
       .catch((err: Error) => {
         res.status(400).json({
