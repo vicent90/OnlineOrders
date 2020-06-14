@@ -25,6 +25,19 @@ class DeliveryRoutes {
       });
   }
 
+  getDeliveryPrice(req: Request, res: Response) {
+    DeliveryPrice.find()
+      .then((deliveryPrices: any) => {
+        res.status(200).json({ deliveryPrices });
+      })
+      .catch((err: any) => {
+        res.status(500).json({
+          message: 'Error al obtener el precio del delivery',
+          errors: err
+        });
+      });
+  }
+
   createDeliveryPrice(req: Request, res: Response) {
     const newDeliveryPrice = new DeliveryPrice(req.body);
     newDeliveryPrice.save()
@@ -42,23 +55,54 @@ class DeliveryRoutes {
       });
   }
 
-  // updateDeliveryPrice(req: Request, res: Response) {
-  //   const options = { new: true, upsert: true, runValidators: true, context: 'query' };
-  //   // DeliveryPrice.update({}, req.body, options)
-  //   DeliveryPrice.findOneAndUpdate({}, req.body, options)
-  //     .then((deliveryPriceUpdated: any) => {
-  //       res.status(200).json({
-  //         message: 'Precio del delivery actualizado',
-  //         order: deliveryPriceUpdated
-  //       });
-  //     })
-  //     .catch((err: any) => {
-  //       res.status(500).json({
-  //         message: 'Error al obtener el precio del delivery',
-  //         errors: err
-  //       });
-  //     });
-  // }
+  updateDeliveryPrice(req: Request, res: Response) {
+    const id = req.params.id;
+    const options = { new: true, runValidators: true, context: 'query' };
+    DeliveryPrice.findByIdAndUpdate(id, req.body, options)
+      .then((deliveryPriceUpdated: any) => {
+        if (!deliveryPriceUpdated) {
+          res.status(400).json({
+            message: 'La dirección de delivery con el id ' + id + ' no existe',
+          });
+        } else {
+          res.status(200).json({
+            message: 'Precio de delivery actualizado',
+            deliveryPrice: deliveryPriceUpdated
+          });
+        }
+      })
+      .catch((err: any) => {
+        res.status(500).json({
+          message: 'Error al actualizar el precio de delivery',
+          errors: err
+        });
+      });
+
+  }
+
+  deleteDeliveryPrice(req: Request, res: Response) {
+    const id = req.params.id;
+    DeliveryPrice.findByIdAndDelete(id)
+      .then((deliveryPriceDeleted: any) => {
+        if (!deliveryPriceDeleted) {
+          res.status(400).json({
+            message: 'El precio de delivery con el id ' + id + ' no existe',
+          });
+        } else {
+          res.status(200).json({
+            message: 'Precio de delivery borrada correctamente',
+            deliveryPrice: deliveryPriceDeleted
+          });
+        }
+      })
+      .catch((err: any) => {
+        res.status(500).json({
+          message: 'Error borrar la dirección de delivery',
+          errors: err
+        });
+      });
+  }
+
 
   getDeliveryAddress(req: Request, res: Response) {
     DeliveryAddress.find()
@@ -139,8 +183,11 @@ class DeliveryRoutes {
   }
 
   routes() {
-    this.router.get('/delivery-prices', this.getLastDeliveryPrice);
+    this.router.get('/delivery-prices-last', this.getLastDeliveryPrice);
+    this.router.get('/delivery-prices', this.getDeliveryPrice);
     this.router.post('/delivery-prices', this.createDeliveryPrice);
+    this.router.put('/delivery-prices/:id', this.updateDeliveryPrice);
+    this.router.delete('/delivery-prices/:id', this.deleteDeliveryPrice);
     //this.router.put('/delivery-prices', this.updateDeliveryPrice);
 
     this.router.get('/delivery-address', this.getDeliveryAddress);
