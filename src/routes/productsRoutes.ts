@@ -46,11 +46,12 @@ class ProductsRoutes {
           res.status(400).json({
             message: 'El producto con el id ' + id + ' no existe'
           });
+        } else {
+          res.status(200).json({
+            message: 'Producto actualizado',
+            product: productUpdated
+          });
         }
-        res.status(200).json({
-          message: 'Producto actualizado',
-          product: productUpdated
-        })
       })
       .catch((err: any) => {
         res.status(500).json({

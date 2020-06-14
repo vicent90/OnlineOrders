@@ -7,6 +7,7 @@ import loginRoutes from './routes/loginRoutes';
 import usersRoutes from './routes/usersRoutes';
 import productsRoutes from './routes/productsRoutes';
 import ordersRoutes from './routes/ordersRoutes';
+import deliveryRoutes from './routes/deliveryRoutes';
 
 class Server {
   public app: express.Application;
@@ -54,6 +55,7 @@ class Server {
     this.app.use(usersRoutes);
     this.app.use(productsRoutes);
     this.app.use(ordersRoutes);
+    this.app.use(deliveryRoutes);
   }
 
   start() {

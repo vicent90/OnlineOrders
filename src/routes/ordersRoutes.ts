@@ -1,5 +1,4 @@
 import { Request, Response, Router } from 'express';
-import mongoose from 'mongoose';
 import helpers from '../middlewares/helpers';
 import Order from '../models/Orders';
 
@@ -16,17 +15,17 @@ class OrdersRoutes {
     // Verify how to filter dates, in DB is with timestamp
     // ** Add a day with momentjs ?
     // ** Format createdAt ? 
-    const query = date || (dateFrom && dateTo) ?
-      {
-        createdAt:
-        {
-          $gte: date || dateFrom,
-          $lte: date || dateTo
-        }
-      } : {};
+    // const query = date || (dateFrom && dateTo) ?
+    //   {
+    //     createdAt:
+    //     {
+    //       $gte: date || dateFrom,
+    //       $lte: date || dateTo
+    //     }
+    //   } : {};
 
-    Order.find(query)
-      .then(orders => {
+    Order.find()
+      .then((orders: any) => {
         res.status(200).json({ orders });
       })
       .catch((err: any) => {
@@ -40,7 +39,7 @@ class OrdersRoutes {
   getOrder(req: Request, res: Response) {
     const id = req.params.id;
     Order.findById(id)
-      .then(order => {
+      .then((order: any) => {
         res.status(200).json({ order });
       })
       .catch((err: any) => {
@@ -54,7 +53,7 @@ class OrdersRoutes {
   updateOrder(req: Request, res: Response) {
     const id = req.params.id;
     Order.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
-      .then(orderUpdated => {
+      .then((orderUpdated: any) => {
         if (!orderUpdated) {
           res.status(400).json({
             message: 'El pedido con el id ' + id + ' no existe',
@@ -76,7 +75,7 @@ class OrdersRoutes {
   createOrder(req: Request, res: Response) {
     const newOrder = new Order(req.body);
     newOrder.save()
-      .then(orderCreated => {
+      .then((orderCreated: any) => {
         res.status(201).json({
           message: 'Pedido creado',
           order: orderCreated
@@ -93,7 +92,7 @@ class OrdersRoutes {
   deteleOrder(req: Request, res: Response) {
     const id = req.params.id;
     Order.findByIdAndDelete(id)
-      .then(orderDeleted => {
+      .then((orderDeleted: any) => {
         if (!orderDeleted) {
           res.status(400).json({
             message: 'El pedido con el id ' + id + ' no existe',
@@ -104,7 +103,7 @@ class OrdersRoutes {
           order: orderDeleted
         });
       })
-      .catch(err => {
+      .catch((err: any) => {
         res.status(500).json({
           message: 'Error borrar el pedido',
           errors: err
@@ -117,13 +116,13 @@ class OrdersRoutes {
     res.status(200).json(orderStatus.enumValues);
   }
 
+
   routes() {
     this.router.get('/orders', this.getOrders);
     this.router.get('/orders-status-values', this.getOrdersStatusValues);
     this.router.get('/orders/:id', this.getOrder);
     this.router.put('/orders/:id', this.updateOrder);
     this.router.post('/orders', [helpers.decreaseProductsQuantity, this.createOrder]);
-    // this.router.put('/orders/:url', this.updateOrder);
     this.router.delete('/orders/:id', this.deteleOrder);
   }
 }

@@ -10,6 +10,7 @@ const orderSchema = new Schema({
   client: {
     name: { type: String, required: true },
     phone: { type: String, required: true },
+    address: String,
     email: String,
     note: String
   },
@@ -31,6 +32,5 @@ const orderSchema = new Schema({
 },
   { timestamps: true }
 );
-
 
 export default model('Order', orderSchema);
