@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import Products from '../models/Products';
+import Product from '../models/Products';
 
 class Helpers {
 
@@ -13,9 +13,9 @@ class Helpers {
         }
       }
     });
-    Products.bulkWrite(bulkOps)
+    Product.bulkWrite(bulkOps)
       .then(() => next())
-      .catch(err => {
+      .catch((err: any) => {
         res.status(500).json({
           message: 'Error al actualizar cantidad de productos',
           errors: err
