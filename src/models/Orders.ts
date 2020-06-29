@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const validStatus = {
-  values: ['PENDIENTE', 'EN PREPARACION', 'LISTO PARA RETIRAR', 'EN CAMNINO'
+  values: ['PENDIENTE', 'EN PREPARACION', 'LISTO PARA RETIRAR', 'EN CAMINO'
     , 'ENTREGADO', 'CANCELADO'],
   message: '{VALUE} no es un estado permitido'
 };
