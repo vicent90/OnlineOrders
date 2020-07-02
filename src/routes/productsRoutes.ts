@@ -112,8 +112,8 @@ class ProductsRoutes {
     res.status(400).json({ message: value + " no es un valor permitido" })
   }
 
-  getImagesNames(req: Request, res: Response) {
-    readdir(path.join(__dirname, '..', './images'), { withFileTypes: true })
+  getImagesMeatsNames(req: Request, res: Response) {
+    readdir(path.join(__dirname, '..', './images/meats'), { withFileTypes: true })
       .then((images: any) => {
         res.status(200).json({ images });
       })
@@ -123,9 +123,20 @@ class ProductsRoutes {
           errors: err
         });
       });
-
   }
 
+  getImagesFruitsNames(req: Request, res: Response) {
+    readdir(path.join(__dirname, '..', './images/fruits'), { withFileTypes: true })
+      .then((images: any) => {
+        res.status(200).json({ images });
+      })
+      .catch((err: Error) => {
+        res.status(400).json({
+          message: 'No se pudo obtener el nombres de las imágenes',
+          errors: err
+        });
+      });
+  }
 
   routes() {
     this.router.get('/products', this.getProducts);
@@ -134,7 +145,8 @@ class ProductsRoutes {
     this.router.put('/products/:id', this.updateProduct);
     this.router.post('/products', this.createProduct);
     this.router.delete('/products/:id', this.deteleProduct);
-    this.router.get('/images-names', this.getImagesNames)
+    this.router.get('/images-meats-names', this.getImagesMeatsNames);
+    this.router.get('/images-fruits-names', this.getImagesFruitsNames);
   }
 }
 

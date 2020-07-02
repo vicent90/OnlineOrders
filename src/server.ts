@@ -39,7 +39,9 @@ class Server {
     this.app.use(express.json()); // Replace of body parser
     this.app.use(express.urlencoded({ extended: false }));
     // Servce Images in {{url}}/images/*****.jpeg
-    this.app.use('*/images', express.static(path.join(__dirname, './images')));
+    this.app.use('*/images',
+      [express.static(path.join(__dirname, './images/meats')),
+      express.static(path.join(__dirname, './images/fruits'))]);
     // CORs
     this.app.use(function (req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
