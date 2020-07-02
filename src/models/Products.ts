@@ -17,7 +17,7 @@ const validMeats = {
 };
 
 const validMeatsPreparation = {
-  values: ['MILANESAS', 'PARRILLA', 'CACEROLA', 'HORNO', '  '],
+  values: ['MILANESAS', 'PARRILLA', 'CACEROLA', 'HORNO', 'PLANCHA'],
   message: '{VALUE} no es un tipo de carnicería válido'
 };
 
