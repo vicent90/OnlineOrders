@@ -34,7 +34,7 @@ const productSchema = new Schema({
   fruits: { type: String, required: false, enum: validFruits },
   meats: { type: String, required: false, enum: validMeats },
   meatsPreparation: { type: [String], required: false, enum: validMeatsPreparation },
-  meatsPresentation: [[String]],
+  meatsPresentation: [String],
   meatsPresentationPossible: { type: Boolean, required: true, default: false },
   unitMeasure: { type: String, required: true, default: 'KG', enum: validUnitMeasure },
   stockQuantity: { type: Number, required: true, default: 0 },
