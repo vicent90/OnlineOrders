@@ -104,7 +104,8 @@ class ProductsRoutes {
     const value = req.query.value;
     if (value === "meats" ||
       value === "meatsPreparation" ||
-      value === "unitMeasure") {
+      value === "unitMeasure" ||
+      value === "frutis") {
       const productStatus: any = Product.schema.path(value);
       res.status(200).json(productStatus.enumValues);
     }

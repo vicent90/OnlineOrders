@@ -6,6 +6,11 @@ const validShops = {
   message: '{VALUE} no es un negocio válido'
 };
 
+const validFruits = {
+  values: ['FRUTAS', 'VERDURAS', 'ELABORADOS', 'COMPLEMENTOS'],
+  message: '{VALUE} no es un tipo de carnicería válido'
+};
+
 const validMeats = {
   values: ['VACUNOS', 'AVES', 'CERDO', 'PREPARADOS', 'EMBUTIDOS'],
   message: '{VALUE} no es un tipo de carnicería válido'
@@ -26,6 +31,7 @@ const productSchema = new Schema({
   price: { type: Number },
   description: { type: String },
   shop: { type: String, enum: validShops, required: [true, 'Se debe elegir un negocio: ' + validShops.values[0] + ' o ' + validShops.values[1]] },
+  fruits: { type: String, required: false, enum: validFruits },
   meats: { type: String, required: false, enum: validMeats },
   meatsPreparation: { type: [String], required: false, enum: validMeatsPreparation },
   meatsPresentation: { type: String },
