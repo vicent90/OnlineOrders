@@ -20,7 +20,8 @@ const orderSchema = new Schema({
       required: true,
       ref: 'Product'
     },
-    quantity: { type: Number, required: true }
+    quantity: { type: Number, required: true },
+    meatsPresentation: { type: String }
   }],
   estimatedPrice: { type: Number, required: true },
   price: { type: Number, required: false },
