@@ -8,7 +8,7 @@ const validShops = {
 
 const validFruits = {
   values: ['FRUTAS', 'VERDURAS', 'ELABORADOS', 'COMPLEMENTOS'],
-  message: '{VALUE} no es un tipo de carnicería válido'
+  message: '{VALUE} no es un tipo de verdulería válido'
 };
 
 const validMeats = {
