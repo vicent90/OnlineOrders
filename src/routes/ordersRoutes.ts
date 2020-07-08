@@ -72,7 +72,8 @@ class OrdersRoutes {
       });
   }
 
-  createOrder(req: Request, res: Response) {
+  createOrder = async (req: Request, res: Response) => {
+    req.body.orderNumber = await Order.find().count() + 1;
     const newOrder = new Order(req.body);
     newOrder.save()
       .then((orderCreated: any) => {

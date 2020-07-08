@@ -7,6 +7,7 @@ const validStatus = {
 };
 
 const orderSchema = new Schema({
+  orderNumber: { type: Number },
   client: {
     name: { type: String, required: true },
     phone: { type: String, required: true },
