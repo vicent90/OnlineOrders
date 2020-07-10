@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/Users';
-import SEED from '../config/config';
+import { SEED } from '../config/config';
 
 class LoginRoutes {
   router: Router;

@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { MILISECONDS_TIMEZONE } from '../config/config';
 
 const validStatus = {
   values: ['PENDIENTE', 'EN PREPARACION', 'LISTO PARA RETIRAR', 'EN CAMINO'
@@ -32,7 +33,9 @@ const orderSchema = new Schema({
   estimatedDeliveryDate: { type: Date },
   deliveryDate: { type: Date }
 },
-  { timestamps: true }
-);
+  {
+    timestamps: { currentTime: () => Date.now() - MILISECONDS_TIMEZONE }
+  });
+
 
 export default model('Order', orderSchema);

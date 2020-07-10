@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import SEED from '../config/config';
+import { SEED } from '../config/config';
 
 
 class Authentication {

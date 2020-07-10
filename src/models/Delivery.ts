@@ -1,12 +1,15 @@
 import { Schema, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import { MILISECONDS_TIMEZONE } from '../config/config';
+
 
 const deliveryPriceSchema = new Schema({
   price: { type: Number, required: true },
   upToOrderPrice: { type: Number, required: true, default: 99999 }
 },
-  { timestamps: true }
-);
+  {
+    timestamps: { currentTime: () => Date.now() - MILISECONDS_TIMEZONE }
+  });
 
 const deliveryAddressSchema = new Schema({
   address: { type: String, required: true, unique: true },

@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import { MILISECONDS_TIMEZONE } from '../config/config';
 
 const validRoles = {
   values: ['ADMIN', 'USER'],
@@ -17,8 +18,9 @@ const userSchema = new Schema({
   phone: { type: String },
   message: { type: String },
 },
-  { timestamps: true }
-);
+  {
+    timestamps: { currentTime: () => Date.now() - MILISECONDS_TIMEZONE }
+  });
 
 userSchema.plugin(uniqueValidator, { message: 'El {PATH} debe ser único' });
 

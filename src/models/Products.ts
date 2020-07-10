@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import { MILISECONDS_TIMEZONE } from '../config/config';
 
 const validShops = {
   values: ['CARNICERIA', 'VERDULERIA'],
@@ -41,8 +42,9 @@ const productSchema = new Schema({
   imageUrl: { type: String },
   active: { type: Boolean, required: true, default: true }
 },
-  { timestamps: true }
-);
+  {
+    timestamps: { currentTime: () => Date.now() - MILISECONDS_TIMEZONE }
+  });
 
 productSchema.plugin(uniqueValidator, { message: 'El {PATH} debe ser único' });
 
