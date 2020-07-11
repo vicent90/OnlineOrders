@@ -13,6 +13,7 @@ class ProductsRoutes {
 
   getProducts(req: Request, res: Response) {
     Product.find()
+      .sort({ name: 1 })
       .then(products => {
         res.status(200).json({ products });
       })
