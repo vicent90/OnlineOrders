@@ -25,6 +25,7 @@ class OrdersRoutes {
     //   } : {};
 
     Order.find()
+      .sort({ estimatedDeliveryDate: 1 })
       .then((orders: any) => {
         res.status(200).json({ orders });
       })
@@ -73,7 +74,7 @@ class OrdersRoutes {
   }
 
   createOrder = async (req: Request, res: Response) => {
-    req.body.orderNumber = await Order.find().count() + 1;
+    req.body.orderNumber = (await Order.find().count() + 1) % 1000;
     const newOrder = new Order(req.body);
     newOrder.save()
       .then((orderCreated: any) => {
