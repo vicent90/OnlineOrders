@@ -74,21 +74,20 @@ class OrdersRoutes {
   }
 
   createOrder = async (req: Request, res: Response) => {
-    req.body.orderNumber = (await Order.find().count() + 1) % 1000;
-    const newOrder = new Order(req.body);
-    newOrder.save()
-      .then((orderCreated: any) => {
-        res.status(201).json({
-          message: 'Pedido creado',
-          order: orderCreated
-        })
-      })
-      .catch((err: any) => {
-        res.status(500).json({
-          message: 'Error al crear el pedido',
-          errors: err
-        });
+    try {
+      req.body.orderNumber = (await Order.find().count() + 1) % 1000;
+      const newOrder = new Order(req.body);
+      const orderCreated = await newOrder.save();
+      res.status(201).json({
+        message: 'Pedido creado',
+        order: orderCreated
       });
+    } catch (err) {
+      res.status(500).json({
+        message: 'Error al crear el pedido',
+        errors: err
+      });
+    }
   }
 
   deteleOrder(req: Request, res: Response) {
