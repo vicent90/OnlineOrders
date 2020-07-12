@@ -11,7 +11,7 @@ class OrdersRoutes {
   }
 
   getOrders(req: Request, res: Response) {
-    const { date, dateFrom, dateTo } = req.query;
+    // const { all, date, dateFrom, dateTo } = req.query;
     // Verify how to filter dates, in DB is with timestamp
     // ** Add a day with momentjs ?
     // ** Format createdAt ? 
@@ -23,8 +23,10 @@ class OrdersRoutes {
     //       $lte: date || dateTo
     //     }
     //   } : {};
-
-    Order.find()
+    const { all } = req.query;
+    const query = all ? {}
+      : { $and: [{ status: { $ne: 'CANCELADO' } }, { status: { $ne: 'ENTREGADO' } }] };
+    Order.find(query)
       .sort({ estimatedDeliveryDate: 1 })
       .then((orders: any) => {
         res.status(200).json({ orders });
