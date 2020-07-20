@@ -3,6 +3,7 @@ const { readdir } = require('fs').promises;
 import path from "path";
 import mongoose from 'mongoose';
 import Product from '../models/Products';
+import autenticacion from '../middlewares/authentication';
 
 class ProductsRoutes {
   router: Router;
@@ -143,9 +144,9 @@ class ProductsRoutes {
     this.router.get('/products', this.getProducts);
     this.router.get('/products-values', this.getProductsValues)
     this.router.get('/products/:id', this.getProduct);
-    this.router.put('/products/:id', this.updateProduct);
-    this.router.post('/products', this.createProduct);
-    this.router.delete('/products/:id', this.deteleProduct);
+    this.router.put('/products/:id', [autenticacion.verifyToken, this.updateProduct]);
+    this.router.post('/products', [autenticacion.verifyToken, this.createProduct]);
+    this.router.delete('/products/:id', [autenticacion.verifyToken, this.deteleProduct]);
     this.router.get('/images-meats-names', this.getImagesMeatsNames);
     this.router.get('/images-fruits-names', this.getImagesFruitsNames);
   }

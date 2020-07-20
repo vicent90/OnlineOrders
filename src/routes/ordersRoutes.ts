@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import helpers from '../middlewares/helpers';
 import Order from '../models/Orders';
+import autenticacion from '../middlewares/authentication';
 
 class OrdersRoutes {
   router: Router;
@@ -124,12 +125,12 @@ class OrdersRoutes {
 
 
   routes() {
-    this.router.get('/orders', this.getOrders);
+    this.router.get('/orders', [autenticacion.verifyToken, this.getOrders]);
     this.router.get('/orders-status-values', this.getOrdersStatusValues);
-    this.router.get('/orders/:id', this.getOrder);
-    this.router.put('/orders/:id', this.updateOrder);
+    this.router.get('/orders/:id', [autenticacion.verifyToken, this.getOrder]);
+    this.router.put('/orders/:id', [autenticacion.verifyToken, this.updateOrder]);
     this.router.post('/orders', [helpers.decreaseProductsQuantity, this.createOrder]);
-    this.router.delete('/orders/:id', this.deteleOrder);
+    this.router.delete('/orders/:id', [autenticacion.verifyToken, this.deteleOrder]);
   }
 }
 

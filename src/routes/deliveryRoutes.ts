@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { DeliveryAddress, DeliveryPrice } from '../models/Delivery';
+import autenticacion from '../middlewares/authentication';
 
 class DeliveryRoutes {
   router: Router;
@@ -185,15 +186,15 @@ class DeliveryRoutes {
   routes() {
     this.router.get('/delivery-prices-last', this.getLastDeliveryPrice);
     this.router.get('/delivery-prices', this.getDeliveryPrice);
-    this.router.post('/delivery-prices', this.createDeliveryPrice);
-    this.router.put('/delivery-prices/:id', this.updateDeliveryPrice);
-    this.router.delete('/delivery-prices/:id', this.deleteDeliveryPrice);
+    this.router.post('/delivery-prices', [autenticacion.verifyToken, this.createDeliveryPrice]);
+    this.router.put('/delivery-prices/:id', [autenticacion.verifyToken, this.updateDeliveryPrice]);
+    this.router.delete('/delivery-prices/:id', [autenticacion.verifyToken, this.deleteDeliveryPrice]);
     //this.router.put('/delivery-prices', this.updateDeliveryPrice);
 
     this.router.get('/delivery-address', this.getDeliveryAddress);
-    this.router.post('/delivery-address', this.createDeliveryAddress);
-    this.router.put('/delivery-address/:id', this.updateDeliveryAddress);
-    this.router.delete('/delivery-address/:id', this.deleteDeliveryAddress);
+    this.router.post('/delivery-address', [autenticacion.verifyToken, this.createDeliveryAddress]);
+    this.router.put('/delivery-address/:id', [autenticacion.verifyToken, this.updateDeliveryAddress]);
+    this.router.delete('/delivery-address/:id', [autenticacion.verifyToken, this.deleteDeliveryAddress]);
   }
 }
 
