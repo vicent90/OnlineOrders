@@ -134,7 +134,7 @@ class UserRoutes {
     //this.router.get('/users', [this.getUsers]);
     this.router.get('/users/:id', [autenticacion.verifyToken, this.getUser]);
     this.router.put('/users/:id', [autenticacion.verifyToken, autenticacion.verifyAdminRole, this.updateUser]);
-    this.router.post('/users', [this.createUser]);
+    this.router.post('/users', [autenticacion.verifyToken, this.createUser]);
     //this.router.post('/users', [autenticacion.verifyToken, autenticacion.verifyAdminRole, this.createUser]);
     this.router.delete('/users/:id', [autenticacion.verifyToken, autenticacion.verifyAdminRole, this.deteleUser]);
   }
