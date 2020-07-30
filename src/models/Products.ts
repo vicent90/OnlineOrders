@@ -23,7 +23,7 @@ const validMeatsPreparation = {
 };
 
 const validUnitMeasure = {
-  values: ['UNIDAD', 'KG'],
+  values: ['UNIDAD', 'KG', 'PIEZA', '100 Gramos'],
   message: '{VALUE} no es una unidad de medida válida'
 }
 
@@ -36,6 +36,8 @@ const productSchema = new Schema({
   meats: { type: String, required: false, enum: validMeats },
   meatsPreparation: { type: [String], required: false, enum: validMeatsPreparation },
   meatsPresentation: [String],
+  productUnitWeight: { type: Number },
+  onlyPerUnit: { type: Boolean, required: true, default: false },
   meatsPresentationPossible: { type: Boolean, required: true, default: false },
   unitMeasure: { type: String, required: true, default: 'KG', enum: validUnitMeasure },
   stockQuantity: { type: Number, required: true, default: 0 },
