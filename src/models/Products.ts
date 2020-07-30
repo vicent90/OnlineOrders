@@ -23,7 +23,7 @@ const validMeatsPreparation = {
 };
 
 const validUnitMeasure = {
-  values: ['UNIDAD', 'KG', 'PIEZA', '100 Gramos'],
+  values: ['UNIDAD', 'KG', '100 Gramos'],
   message: '{VALUE} no es una unidad de medida válida'
 }
 
