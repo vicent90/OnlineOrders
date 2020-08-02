@@ -7,6 +7,11 @@ const validStatus = {
   message: '{VALUE} no es un estado permitido'
 };
 
+const validShiftDelivery = {
+  values: ['MAÑANA', 'TARDE'],
+  message: '{VALUE} no es un estado permitido'
+};
+
 const orderSchema = new Schema({
   orderNumber: { type: Number },
   client: {
@@ -31,6 +36,7 @@ const orderSchema = new Schema({
   status: { type: String, default: "PENDIENTE", enum: validStatus },
   description: { type: String },
   estimatedDeliveryDate: { type: Date },
+  shiftDelivery: { type: String, enum: validShiftDelivery },
   deliveryDate: { type: Date }
 },
   {
