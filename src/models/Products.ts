@@ -8,7 +8,7 @@ const validShops = {
 };
 
 const validFruits = {
-  values: ['FRUTAS', 'VERDURAS', 'ELABORADOS', 'COMPLEMENTOS'],
+  values: ['FRUTAS', 'VERDURAS', 'ELABORADOS', 'COMPLEMENTOS', 'CONGELADOS'],
   message: '{VALUE} no es un tipo de verdulería válido'
 };
 
