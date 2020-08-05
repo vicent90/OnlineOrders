@@ -107,7 +107,8 @@ class ProductsRoutes {
     if (value === "meats" ||
       value === "meatsPreparation" ||
       value === "unitMeasure" ||
-      value === "fruits") {
+      value === "fruits" ||
+      value === "shiftDelivery") {
       const productStatus: any = Product.schema.path(value);
       res.status(200).json(productStatus.enumValues);
     }
