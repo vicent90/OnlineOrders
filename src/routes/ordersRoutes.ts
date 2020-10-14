@@ -25,10 +25,11 @@ class OrdersRoutes {
     //     }
     //   } : {};
     const { all, orderNumber } = req.query;
+    
     let query = all ? {}
-      : { $and: [{ status: { $ne: 'CANCELADO' } }, { status: { $ne: 'ENTREGADO' } }] };
+      : { $nor: [{ status: 'CANCELADO' }, { status: 'ENTREGADO' }] };
 
-    query = orderNumber ? req.query : {};
+    query = orderNumber ? req.query : query;
 
     Order.find(query)
       .sort({ estimatedDeliveryDate: 1 })
